@@ -24,9 +24,9 @@
     - hGap: 좌우 두 사이 수평 간격 (디폴드 5)
     - vGap : 상하 두 컴퍼넌트 사이의 수직 간격 (디폴트 5)
      
-  ``` 코드 블럭 ```
-  import javax.swing.*;
-  import java.awt.*;
+``` java (FlowLayout)
+import javax.swing.*;
+import java.awt.*;
 
 public class FlowLayoutEx extends JFrame{
     public FlowLayoutEx() {
@@ -50,8 +50,7 @@ public class FlowLayoutEx extends JFrame{
         new FlowLayoutEx();
     }
 } 
-
-``` ```
+```
 146. 
 --------------------------------------------------------------------------------
 1. 프로젝트 생성시 디렉터리 판별 및 주의 
