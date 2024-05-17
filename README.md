@@ -1,8 +1,59 @@
 # 이동민 202030225
 
-## 5월 03일 
+## 5월 17일 
 수업 내용
 
+141. 컨테이너의 배치관리자
+    - 컨테이너마다 하나의 배치관리자 존재
+    - 컨테이너에 부착되는 컴포넌트 위치와 크기 설정
+
+142. 배치관리자 유형 4가지
+    - FolwLayout: 컴포넌트가 삽입되는 순서대로 왼쪽에서 오른쪽으로 배치
+    - BorderLayout: 공간을 동, 서, 남, 북, 중앙 5개 영역 나눔
+    - GridLayout: 프로그램에서 설정한 동일한 크기의 2차원 격자로 나눔
+    - CardLayout: 컨테이너 공간에 카드를 쌓아 놓은듯 포개어 배치
+
+143. 새로운 배치관리자 설정
+    - setLayout(LayoutManager Im) 메소드 호출 (Im을 새로운 배치관리자로 설정)
+
+144. 배치방법
+    - 컴포넌트를 컨테이너 내에 왼쪽에서 오른쪽으로 배치 (다시 위에서 아래로 순서대로 배치)
+
+145. 생성자 - FolwLayout(int align, int hGap, int vGap)
+    - align: 정렬하는 방법 지정
+    - hGap: 좌우 두 사이 수평 간격 (디폴드 5)
+    - vGap : 상하 두 컴퍼넌트 사이의 수직 간격 (디폴트 5)
+     
+  ``` 코드 블럭 ```
+  import javax.swing.*;
+  import java.awt.*;
+
+public class FlowLayoutEx extends JFrame{
+    public FlowLayoutEx() {
+        setTitle("FlowLayout 에제");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container contentPanne = getContentPane();
+
+        contentPanne.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 40));
+    
+        contentPanne.add(new JButton("add"));
+        contentPanne.add(new JButton("sub"));
+        contentPanne.add(new JButton("mul"));
+        contentPanne.add(new JButton("div"));
+        contentPanne.add(new JButton("Calculate"));
+
+        setSize(300, 200);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new FlowLayoutEx();
+    }
+} 
+
+``` ```
+146. 
+--------------------------------------------------------------------------------
 1. 프로젝트 생성시 디렉터리 판별 및 주의 
 
 2. 생성 후 이전 시간에 하던 생성물들 복사 붙여넣기로 하고 자바 생성물 src로 옳긴 후 디버깅 
@@ -525,25 +576,25 @@
     - 순수 자바 언어로 구현 및 자바의 GUI로 사용됨
     - AWT 컴포넌트를 모두 스윙으로 재작성 AWT 이름 앞에 J자 덧붙임
 
-134. 컨테이너
+136. 컨테이너
     - 다른 컴포넌트를 포함할 수 있는 GUI 컴포넌트
     - 다른 컨테이너에 포함 될 수 있음
 
-135. 컴포넌트
+137. 컴포넌트
     - 컨테이너에 포함되어야 화면에 출력될 수 있는 GUI 객체
     - 다른 컴폰넌트를 포함할 수 없는 순수 컴포넌트
 
-136. 스윙 GUI 프로그램 만드는 과정
+138. 스윙 GUI 프로그램 만드는 과정
     - 스윙 프레임 만들기
     - Main() 메소드 작성
     - 스윙 프레임에 스윙 컴포넌트 붙이기
 
-137. 스윙 프레임
+139. 스윙 프레임
     - 모든 스윙 컴포넌트를 담는 최위 컨테이너
     - JFrame을 상속받아 구현
     - 프레임 크기 반드시 지정: setSize() 호출
     - 프레임을 화면에 출력하는 코드 반드시 필요: setVisible(true) 호출
 
-138. 프레임에 컴포넌트 붙이기
+140. 프레임에 컴포넌트 붙이기
     - 타이틀 달기 (super()나 setTitle() 이용)
     - 컨텐트팬에 컴포넌트 달기 (컨텐트팬은 스윙 컴포넌트들이 부착되는 공간)
