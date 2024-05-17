@@ -3,7 +3,7 @@
 ## 5월 17일 
 수업 내용
 
-141. 컨테이너의 배치관리자
+ 141. 컨테이너의 배치관리자
     - 컨테이너마다 하나의 배치관리자 존재
     - 컨테이너에 부착되는 컴포넌트 위치와 크기 설정
 
@@ -19,7 +19,7 @@
 144. 배치방법
     - 컴포넌트를 컨테이너 내에 왼쪽에서 오른쪽으로 배치 (다시 위에서 아래로 순서대로 배치)
 
-145. 생성자 - FolwLayout(int align, int hGap, int vGap)
+145. FolwLayout(int align, int hGap, int vGap)
     - align: 정렬하는 방법 지정
     - hGap: 좌우 두 사이 수평 간격 (디폴드 5)
     - vGap : 상하 두 컴퍼넌트 사이의 수직 간격 (디폴트 5)
@@ -51,7 +51,49 @@ public class FlowLayoutEx extends JFrame{
     }
 } 
 ```
-146. 
+146. BorderLayout 배치관리자
+    - 컨테이너 공간을 동 서 남 북 중앙 분활, 배치
+    - hGap: 좌우 두 사이 수평 간격 (디폴드 0)
+    - vGap : 상하 두 컴퍼넌트 사이의 수직 간격 (디폴트 0)
+``` java
+import javax.swing.*;
+import java.awt.*;
+
+public class BorderLayoutEx extends JFrame{
+    public BorderLayoutEx() {
+        setTitle("BorderLayout 에제");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container contentPanne = getContentPane();
+
+        contentPanne.setLayout(new BorderLayout ());
+    
+        contentPanne.add(new JButton("CENTER"), BorderLayout.CENTER);
+        contentPanne.add(new JButton("NORTH"), BorderLayout.NORTH );
+        contentPanne.add(new JButton("SOUTH"), BorderLayout.SOUTH);
+        contentPanne.add(new JButton("EAST"), BorderLayout.EAST);
+        contentPanne.add(new JButton("WEST"), BorderLayout.WEST);
+
+        setSize(300, 200);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new BorderLayoutEx();
+    }
+} 
+```
+
+147. GridLayout
+    -  동일한 사각형 격자로 분활하고 각 셀에 컴포넌트 하나씩 배치
+
+148. 배치관리자가 없는 컨테이너가 필요한 경우
+    - 응용프로그램에서 직접 컴포넌트의 크기와 위치를 결정고자 하는 경우
+
+149. 배치관리자가 없는 컨테이너에 컴포넌트를 삽입 할 떄
+    - 프로그램에서 컴포넌트의 절대 크기와 위치 설정
+    - 서로 겹치게 할 수 있음
+
+
 --------------------------------------------------------------------------------
 1. 프로젝트 생성시 디렉터리 판별 및 주의 
 
