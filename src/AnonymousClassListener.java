@@ -9,7 +9,19 @@ public class AnonymousClassListener extends JFrame {
         Container c = getContentPane();
         c.setLayout(new FlowLayout());
         JButton btn = new JButton("Action");
-        btn.addActionListener(new MyActionListener());
+        
+        // 익명 클래스 리스너 추가
+        btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JButton b = (JButton)e.getSource();
+                if (b.getText().equals("Action"))
+                    b.setText("액션");
+                else
+                    b.setText("Action");
+                setTitle(b.getText());
+            }
+        });
+        
         c.add(btn);
         setSize(250, 120);
         setVisible(true);
@@ -17,15 +29,5 @@ public class AnonymousClassListener extends JFrame {
 
     public static void main(String[] args) {
         new AnonymousClassListener();
-    }
-}
-
-class MyActionListener implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
-        JButton b = (JButton)e.getSource();
-        if(b.getText().equals("Action"))
-            b.setText("액션");
-        else 
-            b.setText("Action");
     }
 }
