@@ -1,8 +1,80 @@
 # 이동민 202030225
 
-## 5월 17일 
-수업 내용
+## 5월 24일 
 
+
+150. 이벤트 기반 프로그래밍
+    - 이벤트의 발생에 의해 프로그램흐름이 결정되는 방식
+    - 반대되는 개념: 배치 실행
+
+151. 처리되는 과정
+    - 이벤트 발생
+    - 이벤트 객체 생성
+    - 응응프로그램에 작성된 이벤트 리스너 찾기
+    - 이벤트 리스너 실행
+ 
+ 152. 이벤트 객체
+    - 발생한 이벤트에 관한 정보를 가진 객체
+    - 이벤트 리스너에 의해 전달됨
+ 
+ 153. 포함하는 정보
+    - 이벤트 종류와 이벤트 소스
+    - 이벤트가 발생한 화면 좌표 및 컴포넌트 내 좌표
+    - 발생된 버튼이나 메뉴 아이템의 문자열
+    - 클릭된 마우스 버튼 및 클릭 횟수
+    - 키의 코드 값과 문자 값
+ 
+ 154. 이벤트 리스너
+    - 이벤트를 처리하는 자바 프로그램 코드, 클래스로 작성
+    - 자바의 리스너 인터페이스를 상속받아 구현
+    - 리스너 인터페이스의 모든 추상 메소드 구현
+ 
+ 155. 이벤트와 이벤트 리스너 선택
+    - 버튼 클릭을 처리하고자 하는 경우: 액션 이벤트, 이벤트 리스너, 액션 리스너
+
+156. 이벤트 리스너 등록
+    - 이벤트를 받아 처리하고자 하는 컴포넌트에 이벤트 리스너 등록
+
+157. 이벤트 리스너 3가지 작성 방법
+    - 독립 클래스 작성 (이벤트 리스를 완전히 클래스로 작성)
+    - 내부 클래스로 작성 (클래스 안에 맴버처럼 클래스 작성)
+    - 익명 클래스로 작성 (클래스의 이름 없이 간단히 리스너 작성)
+
+```java
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class IndepClassListener extends JFrame {
+    public IndepClassListener() {
+        setTitle("Action 이벤트 리스너 예제");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container c = getContentPane();
+        c.setLayout(new FlowLayout());
+        JButton btn = new JButton("Action");
+        btn.addActionListener(new MyActionListener());
+        c.add(btn);
+        setSize(250, 120);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new IndepClassListener();
+    }
+}
+
+class MyActionListener implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+        JButton b = (JButton)e.getSource();
+        if(b.getText().equals("Action"))
+            b.setText("액션");
+        else 
+            b.setText("Action");
+    }
+}
+```
+156. 
+ --------------------------------------------------------------------------------
  141. 컨테이너의 배치관리자
     - 컨테이너마다 하나의 배치관리자 존재
     - 컨테이너에 부착되는 컴포넌트 위치와 크기 설정
@@ -86,14 +158,42 @@ public class BorderLayoutEx extends JFrame{
 147. GridLayout
     -  동일한 사각형 격자로 분활하고 각 셀에 컴포넌트 하나씩 배치
 
+```java
+import javax.swing.*;
+import java.awt.*;
+
+public class GridLayoutEx extends JFrame {
+    public GridLayoutEx() {
+        super("BorderLayout 예제");                       // 프레임 타이틀 달기
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container contentPane = getContentPane();               // 컨텐트팬 알아내기
+         
+        //1x10의 GridLayout 배치관리자
+        contentPane.setLayout(new GridLayout(4, 3));             
+
+        for(int i=9; i>0; i--) {                                // 10개의 버튼 부착
+            String text = Integer.toString(i);                  // i를 문자열로 변환               
+            contentPane.add(new JButton(text));                 // 컨탠트팬에 버튼 부착
+        }       
+
+        contentPane.add(new JButton("*"));
+        contentPane.add(new JButton("0"));
+
+        setSize(300, 200);                       // 프레임 크기 300x200 설정
+        setVisible(true);                                   // 화면에 프레임 출력
+    }
+
+    public static void main(String[] args) {
+        new GridLayoutEx();
+    }
+}
+```
 148. 배치관리자가 없는 컨테이너가 필요한 경우
     - 응용프로그램에서 직접 컴포넌트의 크기와 위치를 결정고자 하는 경우
 
 149. 배치관리자가 없는 컨테이너에 컴포넌트를 삽입 할 떄
     - 프로그램에서 컴포넌트의 절대 크기와 위치 설정
     - 서로 겹치게 할 수 있음
-
-
 --------------------------------------------------------------------------------
 1. 프로젝트 생성시 디렉터리 판별 및 주의 
 
