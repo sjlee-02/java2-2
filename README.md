@@ -77,9 +77,59 @@ class MyActionListener implements ActionListener {
         - 익명 클래스: 이름 없는 클래스 ((클래스선언 + 인스턴스 생성)을 한번에 달성)
         - 간단한 리스너의 경우 익명 클래스 추천
 ```java
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
+public class AnonymousClassListener extends JFrame {
+    public AnonymousClassListener() {
+        setTitle("Action 이벤트 리스너 예제");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container c = getContentPane();
+        c.setLayout(new FlowLayout());
+        JButton btn = new JButton("Action");
+        
+        // 익명 클래스 리스너 추가
+        btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JButton b = (JButton)e.getSource();
+                if (b.getText().equals("Action"))
+                    b.setText("액션");
+                else
+                    b.setText("Action");
+                setTitle(b.getText());
+            }
+        });
+        
+        c.add(btn);
+        setSize(250, 120);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new AnonymousClassListener();
+    }
+}
 ```
-157. 
+157. Key 이벤트와 포커스
+        - 키 입력시 각각 Key 이벤트 발생 (키를 누르는 순간/키를 떼는 순간)
+        - 키 이벤트를 받을 수 있는 조건(모든 컴포넌트, 현재 포커스를 가진 컴포넌트가 키 이벤트 독점)
+        - 포커스 (컴포넌트나 응용프로그램이 키 이벤트를 독점하는 권한)
+
+158. 키 리스너
+        - 응용프로그램에서 키 리스너를 상속받아 키 리스너 구현
+    
+159. 키 이벤트 객체
+        - 입력된 키 정보를 가진 이벤트 객체
+        - 키 이벤트 객체의 메소드로 입력된 키 판별
+
+160. 가상 키
+        - 가상 키는 키 이벤트 클래스에 상수로 선언
+
+161. 마우스 이벤트
+        - 사용자의 마우스 조작에 따라 발생하는 이벤트
+
+162. 
  --------------------------------------------------------------------------------
  141. 컨테이너의 배치관리자
         - 컨테이너마다 하나의 배치관리자 존재
