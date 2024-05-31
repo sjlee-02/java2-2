@@ -1,8 +1,176 @@
 # 이동민 202030225
 
-## 5월 24일 
+## 5월 31일 
 
+![Alt text](image.png)
 
+162. 자바의 GUI 프로그래밍 방법 종류
+        - 컴포넌트 기반 GUI 프로그래밍
+        - 그래픽 기반 GUI 프로그래밍
+
+163. 스윙 컴포넌트의 공통 메소드 JComponent의 메소드
+        - 스윙컴포넌트는 모두 상속받는 슈퍼, 추상 클래스
+        - 스윙 컴포넌트들이 상속받는 공통메소드와 상수 구현
+```Java 
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class JComponentEx extends JFrame {
+    public JComponentEx() {
+        super("JComponent의 공통 메소드 예제");
+        Container c = getContentPane();
+        c.setLayout(new FlowLayout());
+        JButton b1 = new JButton("Magenta/Yellow Button");
+        JButton b2 = new JButton("Disabled Button");
+        JButton b3 = new JButton("getX(), getY()");
+        b1.setBackground(Color.YELLOW);
+        b1.setForeground(Color.MAGENTA);
+        b1.setFont(new Font("Arial", Font.ITALIC, 20));
+        b2.setEnabled(false);
+        b3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JButton b = (JButton)e.getSource();
+                setTitle(b.getX() + "," + b.getY());
+            }
+        });
+        c.add(b1); c.add(b2); c.add(b3);
+        setSize(260, 200); setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new JComponentEx();
+    }
+}
+```
+164. JLable
+        - 문자열이나 이미지를 화면에 출력하기 위한 목적
+```Java 
+import java.awt.*;
+import javax.swing.*;
+
+public class LabelEx extends JFrame {
+    public LabelEx() {
+        setTitle("레이블 예제");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container c = getContentPane();
+        c.setLayout(new FlowLayout());
+
+        JLabel textLabel = new JLabel("제임스 고블링 입니다!");
+
+        ImageIcon img = new ImageIcon();
+        JLabel imageLabel = new JLabel(img);
+
+        ImageIcon icon = new ImageIcon();
+        JLabel label = new JLabel("안녕하세요", icon, SwingConstants.CENTER);
+
+        c.add(textLabel);
+        c.add(imageLabel);
+        c.add(label);
+    }
+
+    public static void main(String[] args) {
+        new LabelEx();
+    }
+}   
+```
+165. 이미지 버튼
+        - 마우스 조작에 따라 3 개의 이미지 중 적절한 이미지 자동 출력
+        - normalIcon: 버튼의 보통 상태(디폴트) 때 출력되는 이미지
+        - rolloverIcon: 버튼에 마우스가 올라갈 때 출력되는 이미지 
+        - pressedIcon: 버튼을 누른 상태 때 출력되는 이미지
+
+```Java 
+import java.awt.*;
+import javax.swing.*;
+
+public class ButtonImageEx extends JFrame {
+    public ButtonImageEx() {
+        setTitle("이미지 버튼 예제");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container c = getContentPane();
+        c.setLayout(new FlowLayout());
+
+       ImageIcon normalIcon = new ImageIcon("images/gosline.jpg");
+       ImageIcon rolloverIcon = new ImageIcon("images/go.jpg");
+       ImageIcon pressedIcon = new ImageIcon("images/images.jpg");
+
+        JButton btn = new JButton("call", normalIcon);
+        btn.setPressedIcon(pressedIcon);
+        btn.setRolloverIcon(rolloverIcon);
+
+        c.add(btn);
+        setSize(250, 250);
+        setVisible(true);
+    }
+    public static void main(String[] args) {
+        new ButtonImageEx();
+    }
+}
+```
+166. JCheckBox
+        - 선택과 비선택 두상태만 가진 버튼
+```java
+import java.awt.*;
+import javax.swing.*;
+
+public class CheckBoxEx extends JFrame {
+    public CheckBoxEx() {
+        setTitle("체크 버튼 예제");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container c = getContentPane();
+        c.setLayout(new FlowLayout());
+
+       ImageIcon normalIcon = new ImageIcon("images/gosline.jpg");
+       ImageIcon rolloverIcon = new ImageIcon("images/go.jpg");
+       ImageIcon pressedIcon = new ImageIcon("images/images.jpg");
+
+        JButton btn = new JButton("call", normalIcon);
+        btn.setPressedIcon(pressedIcon);
+        btn.setRolloverIcon(rolloverIcon);
+
+        c.add(btn);
+        setSize(250, 250);
+        setVisible(true);
+    }
+    public static void main(String[] args) {
+        new CheckBoxEx();
+    }
+}
+```
+167. JRadioButton의 용도
+        - 버튼 그룹을 형성하고, 그룹에 속한 버튼 중 하나만 선택되는 라디오버튼
+```Java 
+import javax.swing.*;
+import java.awt.*;
+
+public class RadioButtonEx extends JFrame {
+	public RadioButtonEx() {
+		setTitle("라디오버튼 만들기 예제");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Container c = getContentPane();
+		c.setLayout(new FlowLayout());
+		ButtonGroup g = new ButtonGroup(); // 버튼 그룹 객체 생성
+
+		JRadioButton apple = new JRadioButton("사과");
+		JRadioButton pear = new JRadioButton("배", true);
+		JRadioButton cherry = new JRadioButton("체리");
+
+		g.add(apple);
+		g.add(pear);
+		g.add(cherry);
+
+		c.add(apple); c.add(pear); c.add(cherry);
+		setSize(250,150);
+		setVisible(true);
+	}
+	public static void main(String [] args) {
+		new RadioButtonEx();
+	}
+}
+```
+168. 
+ --------------------------------------------------------------------------------
 150. 이벤트 기반 프로그래밍
         - 이벤트의 발생에 의해 프로그램흐름이 결정되는 방식
         - 반대되는 개념: 배치 실행
@@ -128,8 +296,6 @@ public class AnonymousClassListener extends JFrame {
 
 161. 마우스 이벤트
         - 사용자의 마우스 조작에 따라 발생하는 이벤트
-
-162. 
  --------------------------------------------------------------------------------
  141. 컨테이너의 배치관리자
         - 컨테이너마다 하나의 배치관리자 존재
