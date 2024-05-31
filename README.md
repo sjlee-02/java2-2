@@ -353,7 +353,8 @@ public class MenuEx extends JFrame {
 174. 확인 다이얼로그
         - 사용자로부터 Yes/No 응답을 입력 받는 다이얼로그
 
-175. 단순 메세지를 출력하는 다이얼로그
+175. 메세지 다이얼로그
+        - 단순 메세지를 출력하는 다이얼로그
 ```java
 import javax.swing.*;
 import java.awt.event.*;
