@@ -300,7 +300,179 @@ public class ThreadTimerEx extends JFrame {
 196. main 스레드
         - JVM이 응용프로그램을 실행할 떄 디폴트로 생성되는 스레드
 
-197. 
+197. 스스로 종료
+        - run() 메소드 리턴
+
+198. 타 스레드에서 강제 종료
+        - interrupt() 메소드 사용
+```java
+import java.awt.event.*;
+import javax.swing.*;
+import java.util.Random;
+
+public class VibratingFrame extends JFrame implements Runnable {
+	private Thread th; 
+	public VibratingFrame() {
+		setTitle("진동하는 프레임 만들기");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(200,200);
+		setLocation(300,300); 
+		setVisible(true);
+
+		getContentPane().addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if(!th.isAlive()) return;
+					th.interrupt(); 
+			}
+		});
+		th = new Thread(this); 
+		th.start(); 
+	}
+    @Override	
+	public void run() { 
+		Random r = new Random();
+		while(true) {
+			try {
+				Thread.sleep(20); 
+			}
+			catch(InterruptedException e){
+				return; 
+			}
+			int x = getX() + r.nextInt()%5; 
+			int y = getY() + r.nextInt()%5; 
+			setLocation(x, y); 
+		}
+	}
+	public static void main(String [] args) {
+		new VibratingFrame();
+	}
+}
+```
+199. 멀티스레드 프로그램 작성시 주의점
+        - 다수의 스레드가 공유 데이터에 동시에 접근하는 경우
+
+200. 동기화
+        - 스레드 사이의 실행순서 제어 공유데이터에 대한 접근을 원활하게 하는 기법
+
+201. 멀티스레드의 공유 데이터의 동시 접근 문제 해결
+        - 1: 공유 데이터를 접근하는 모든 스레드의 한 줄 세우기
+        - 2: 한 스레드가 공유 데이터에 대한 작업을 끝낼 때까지 다른 스레드가 대기 하도록 함
+
+202. 자바의 스레드 동기화 방법 2가지
+        - synchronized 키워드로 동기화 블록 지정
+        - wait()-notify() 메소드로 스레드의 실행 순서 제어
+
+203. synchronized 키워드
+        - 스레드가 독점적으로 실행해야 하는 부분(동기화 코드)을 표시하는 키워드
+        - synchronized 블록 지정 방법: 메소드 전체 혹은 코드 블록 
+
+204. synchronized 블록이 실행될 때
+        - 먼저 실행한 스레드가 모니터 소유
+        - 모니터를 소유한 스레드가 모니터를 내려놓을때까지 다른 스레드 대기
+
+205. wait()-notify()가 필요한 경우
+        - 공유 데이터로 두 개 이상의 스레드가 데이터를 주고 받을때
+
+206. 동기화 메소드
+        - wait() : 다른 스레드가 notify()를 불러줄 때까지 기다린다
+        - notify() : wait()를 호출하여 대기중인 스레드를 깨운다
+```java
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+class MyLabel extends JLabel {
+	private int barSize = 0; 
+	private int maxBarSize;
+	
+	public MyLabel(int maxBarSize) { 
+		this.maxBarSize = maxBarSize;
+	}
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.setColor(Color.MAGENTA);
+		int width = (int)(((double)(this.getWidth()))
+				/maxBarSize*barSize);
+		if(width==0) return; 
+		g.fillRect(0, 0, width, this.getHeight());
+	}
+	
+	synchronized void fill() {
+		if(barSize == maxBarSize) {
+			try {
+				wait(); 
+			} catch (InterruptedException e) { return; }
+		}
+		barSize++;
+		repaint(); 
+		notify(); 
+	}
+    synchronized void consume() {
+		if(barSize == 0) {
+			try {
+				wait(); 
+			} catch (InterruptedException e)
+				 { return; }
+		}
+		barSize--;
+		repaint(); 
+		notify(); 
+	}	
+}
+class ConsumerThread extends Thread {
+	private MyLabel bar;
+	
+	public ConsumerThread(MyLabel bar) {
+		this.bar = bar;
+	}
+	@Override
+	public void run() {
+		while(true) {
+			try {
+				sleep(200);
+				bar.consume(); 
+			} catch (InterruptedException e)
+			 { return; }
+		}
+	}
+}
+public class TabAndThreadEx  extends JFrame {
+	private MyLabel bar = new MyLabel(100); 	
+	public TabAndThreadEx(String title) {
+		super(title);
+		this.setDefaultCloseOperation
+				(JFrame.EXIT_ON_CLOSE);
+		Container c = getContentPane();
+		c.setLayout(null);
+		bar.setBackground(Color.ORANGE);
+		bar.setOpaque(true);
+		bar.setLocation(20,  50);
+		bar.setSize(300, 20); 
+		c.add(bar);
+		
+		c.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) 
+			{
+				bar.fill(); 
+			}
+		});
+		setSize(350,200);
+		setVisible(true);
+
+		c.setFocusable(true);		
+		c.requestFocus(); 
+		ConsumerThread th = new 
+			ConsumerThread(bar); 
+		th.start(); 
+	}
+
+	public static void main(String[] args) {
+		new TabAndThreadEx(
+			"아무키나 빨리 눌러 바 채우기");
+	}
+}
+```
  --------------------------------------------------------------------------------
 1. 프로젝트 생성시 디렉터리 판별 및 주의 
 
