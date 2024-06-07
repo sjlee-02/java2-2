@@ -1,674 +1,169 @@
 # 이동민 202030225
 
-## 5월 31일 
+## 6월 7일 
 
-162. 자바의 GUI 프로그래밍 방법 종류
-        - 컴포넌트 기반 GUI 프로그래밍
-        - 그래픽 기반 GUI 프로그래밍
+176. 스윙의 페인팅 기본
+        - 모든 컴포넌트는 자신의 모양을 스스로 그린다
+        - 컨테이너는 자신을 그리고 그 위에 자식 컴포넌트들에게 그리도록 지시
+        - 모든 스윙 컴포넌트는 자신의 모양을 그리는 paintComponent() 메소드 보유
 
-![Alt text](image.png)
+177. public void paintComponent(Graphics g)
+        - 스윙 컴포넌트가 자신의 모양을 그리는 메소드
 
-163. 스윙 컴포넌트의 공통 메소드 JComponent의 메소드
-        - 스윙컴포넌트는 모두 상속받는 슈퍼, 추상 클래스
-        - 스윙 컴포넌트들이 상속받는 공통메소드와 상수 구현
-```Java 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-
-public class JComponentEx extends JFrame {
-    public JComponentEx() {
-        super("JComponent의 공통 메소드 예제");
-        Container c = getContentPane();
-        c.setLayout(new FlowLayout());
-        JButton b1 = new JButton("Magenta/Yellow Button");
-        JButton b2 = new JButton("Disabled Button");
-        JButton b3 = new JButton("getX(), getY()");
-        b1.setBackground(Color.YELLOW);
-        b1.setForeground(Color.MAGENTA);
-        b1.setFont(new Font("Arial", Font.ITALIC, 20));
-        b2.setEnabled(false);
-        b3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JButton b = (JButton)e.getSource();
-                setTitle(b.getX() + "," + b.getY());
-            }
-        });
-        c.add(b1); c.add(b2); c.add(b3);
-        setSize(260, 200); setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new JComponentEx();
-    }
-}
-```
-164. JLable
-        - 문자열이나 이미지를 화면에 출력하기 위한 목적
-```Java 
-import java.awt.*;
-import javax.swing.*;
-
-public class LabelEx extends JFrame {
-    public LabelEx() {
-        setTitle("레이블 예제");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container c = getContentPane();
-        c.setLayout(new FlowLayout());
-
-        JLabel textLabel = new JLabel("제임스 고블링 입니다!");
-
-        ImageIcon img = new ImageIcon();
-        JLabel imageLabel = new JLabel(img);
-
-        ImageIcon icon = new ImageIcon();
-        JLabel label = new JLabel("안녕하세요", icon, SwingConstants.CENTER);
-
-        c.add(textLabel);
-        c.add(imageLabel);
-        c.add(label);
-    }
-
-    public static void main(String[] args) {
-        new LabelEx();
-    }
-}   
-```
-165. 이미지 버튼
-        - 마우스 조작에 따라 3 개의 이미지 중 적절한 이미지 자동 출력
-        - normalIcon: 버튼의 보통 상태(디폴트) 때 출력되는 이미지
-        - rolloverIcon: 버튼에 마우스가 올라갈 때 출력되는 이미지 
-        - pressedIcon: 버튼을 누른 상태 때 출력되는 이미지
-
-```Java 
-import java.awt.*;
-import javax.swing.*;
-
-public class ButtonImageEx extends JFrame {
-    public ButtonImageEx() {
-        setTitle("이미지 버튼 예제");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container c = getContentPane();
-        c.setLayout(new FlowLayout());
-
-       ImageIcon normalIcon = new ImageIcon("images/gosline.jpg");
-       ImageIcon rolloverIcon = new ImageIcon("images/go.jpg");
-       ImageIcon pressedIcon = new ImageIcon("images/images.jpg");
-
-        JButton btn = new JButton("call", normalIcon);
-        btn.setPressedIcon(pressedIcon);
-        btn.setRolloverIcon(rolloverIcon);
-
-        c.add(btn);
-        setSize(250, 250);
-        setVisible(true);
-    }
-    public static void main(String[] args) {
-        new ButtonImageEx();
-    }
-}
-```
-166. JCheckBox
-        - 선택과 비선택 두상태만 가진 버튼
-```java
-import java.awt.*;
-import javax.swing.*;
-
-public class CheckBoxEx extends JFrame {
-    public CheckBoxEx() {
-        setTitle("체크 버튼 예제");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container c = getContentPane();
-        c.setLayout(new FlowLayout());
-
-       ImageIcon normalIcon = new ImageIcon("images/gosline.jpg");
-       ImageIcon rolloverIcon = new ImageIcon("images/go.jpg");
-       ImageIcon pressedIcon = new ImageIcon("images/images.jpg");
-
-        JButton btn = new JButton("call", normalIcon);
-        btn.setPressedIcon(pressedIcon);
-        btn.setRolloverIcon(rolloverIcon);
-
-        c.add(btn);
-        setSize(250, 250);
-        setVisible(true);
-    }
-    public static void main(String[] args) {
-        new CheckBoxEx();
-    }
-}
-```
-167. JRadioButton의 용도
-        - 버튼 그룹을 형성하고, 그룹에 속한 버튼 중 하나만 선택되는 라디오버튼
-```Java 
-import javax.swing.*;
-import java.awt.*;
-
-public class RadioButtonEx extends JFrame {
-	public RadioButtonEx() {
-		setTitle("라디오버튼 만들기 예제");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Container c = getContentPane();
-		c.setLayout(new FlowLayout());
-		ButtonGroup g = new ButtonGroup(); // 버튼 그룹 객체 생성
-
-		JRadioButton apple = new JRadioButton("사과");
-		JRadioButton pear = new JRadioButton("배", true);
-		JRadioButton cherry = new JRadioButton("체리");
-
-		g.add(apple);
-		g.add(pear);
-		g.add(cherry);
-
-		c.add(apple); c.add(pear); c.add(cherry);
-		setSize(250,150);
-		setVisible(true);
-	}
-	public static void main(String [] args) {
-		new RadioButtonEx();
-	}
-}
-```
-168. JTextField
-        - 한 줄의 문자열을 입력 받는 창(텍스트필드)
-        - 텍스트 입력 도중 엔터키가 입력되면 action 이벤트 발생
-```java
-import javax.swing.*;
-import java.awt.*;
-
-public class TextFieldEx extends JFrame {
-	public TextFieldEx() {
-		setTitle("텍스트필드 만들기");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Container c = getContentPane();
-		c.setLayout(new FlowLayout());
-
-		c.add(new JLabel("이름 "));
-		c.add(new JTextField(20));
-		c.add(new JLabel("학과 "));
-		c.add(new JTextField("컴퓨터공학부", 20)); 
-		c.add(new JLabel("주소 "));
-		c.add(new JTextField("서울특별시 동작구", 20)); 		
-
-		setSize(300,150);
-		setVisible(true);
-	}
-	public static void main(String [] args) {
-		new TextFieldEx();
-	}
-}
-```
-169. TextArea
-        - 여러 줄의 문자열을 입력받을 수 있는 창(텍스트영역)
-```java
-import javax.swing.*;
-import java.awt.event.*;
-import java.awt.*;
-
-public class TextAreaEx extends JFrame {
-	private JTextField tf = new JTextField(20);
-	private JTextArea ta = new JTextArea(7, 20); 
-
-	public TextAreaEx() {
-		setTitle("텍스트영역 만들기");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Container c = getContentPane();
-		c.setLayout(new FlowLayout());
-		c.add(new JLabel("입력 후 <Enter> 키를 입력하세요"));
-		c.add(tf);
-		c.add(new JScrollPane(ta));
-
-		tf.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JTextField t = (JTextField)e.getSource();
-				ta.append(t.getText() + "\n"); 
-				t.setText(""); 
-			}
-		});
-		setSize(300,300);
-		setVisible(true);
-	}
-	public static void main(String [] args) {
-		new TextAreaEx();
-	}
-}
-```
-170. JList<E>
-        - 하나 이상의 아이템을 보여주고 아이템을 선택할 수 있도록 하는 리스트
-```java
-import javax.swing.*;
-import java.awt.*;
-public class ListEx extends JFrame {
-	private String [] fruits= {"apple", "banana", "kiwi", "mango", 
-				"pear", "peach", "berry", "strawberry", "blackberry"};
-	private ImageIcon [] images = { new ImageIcon("images/1.png"),
-									new ImageIcon("images/2.png"),
-									new ImageIcon("images/3.png"),
-									new ImageIcon("images/4.png") };
-	public ListEx() {
-		setTitle("리스트 만들기");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Container c = getContentPane();
-		c.setLayout(new FlowLayout());
-
-		JList<String> strList = new JList<String>(fruits); 
-		c.add(strList);
-
-		JList<ImageIcon> imageList = new JList<ImageIcon>(); 
-		imageList.setListData(images); 
-		c.add(imageList);
-
-		JList<String> scrollList = new JList<String>(fruits); 
-		c.add(new JScrollPane(scrollList)); 
-
-		setSize(300,300); setVisible(true);
-	}
-	public static void main(String [] args) {
-		new ListEx();
-	}
-}
-```
-171. JComboBox<E>
-        - 텍스트필드와 버튼 그리고 드롭다운 리스트로 구성되는 콤보박스
-        - 드랍다운 리스트에서 선택한 것이 텍스트필드에 나타남
-```java
-import javax.swing.*;
-import java.awt.event.*;
-import java.awt.*;
-
-public class ComboActionEx extends JFrame {
-	private String [] fruits = {"apple", "banana", "mango"}; 
-	private ImageIcon [] images = { new ImageIcon("images/apple.jpg"),
-									new ImageIcon("images/banana.jpg"),
-									new ImageIcon("images/mango.jpg") };
-	private JLabel imgLabel = new JLabel(images[0]); 
-
-	public ComboActionEx() {
-		setTitle("콤보박스 활용");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Container c = getContentPane();
-		c.setLayout(new FlowLayout());
-		
-        JComboBox<String> combo = new JComboBox<String>(fruits); 
-		c.add(combo); c.add(imgLabel);
-		
-		combo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JComboBox<String> cb = (JComboBox<String>)e.getSource(); 
-				int index = cb.getSelectedIndex(); 	
-				imgLabel.setIcon(images[index]); 
-			}
-		});
-		setSize(300,250);
-		setVisible(true);
-	}
-	public static void main(String [] args) {
-		new ComboActionEx();
-	}
-}
-```
-172. 메뉴 구성
-        - 메뉴 만들기에 필요한 스윙 컴포넌트
-        - 메뉴아이템 - JMenuItem
-        - 메뉴 - JMenu
-        - 메뉴바 - JMenuBar
-        - 분리선 - separator
-```java
-import javax.swing.*;
-
-public class MenuEx extends JFrame {
-	public MenuEx() {
-		setTitle("Menu 만들기");
-		createMenu(); 
-		setSize(250,200);
-		setVisible(true);
-	}
-
-	public void createMenu() {
-		JMenuBar mb = new JMenuBar(); 
-		JMenu screenMenu = new JMenu("Screen");
-		
-		screenMenu.add(new JMenuItem("Load"));
-		screenMenu.add(new JMenuItem("Hide"));
-		screenMenu.add(new JMenuItem("ReShow"));
-		screenMenu.addSeparator();
-		screenMenu.add(new JMenuItem("Exit"));
-
-		mb.add(screenMenu);
-		mb.add(new JMenu("Edit"));
-		mb.add(new JMenu("Source"));
-		mb.add(new JMenu("Project"));
-		mb.add(new JMenu("Run"));
-		setJMenuBar(mb);
-	}
-	public static void main(String [] args) {
-		new MenuEx();
-	}
-}
-```
-173. 팝업 다이얼로그
-        - 사용자에게 메시지를 전달하거나 문자열을 간단히 입력받는 용도
-        - JOptionPane 클래스를 이용하여 생성
-
-174. 확인 다이얼로그
-        - 사용자로부터 Yes/No 응답을 입력 받는 다이얼로그
-
-175. 메세지 다이얼로그
-        - 단순 메세지를 출력하는 다이얼로그
-```java
-import javax.swing.*;
-import java.awt.event.*;
-import java.awt.*;
-
-public class OptionPaneEx extends JFrame {
-	public OptionPaneEx() {
-		setTitle("옵션 팬");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Container c = getContentPane();
-		setSize(500,200);
-		c.add(new MyPanel(),	BorderLayout.NORTH);
-		setVisible(true);
-	}
-	class MyPanel extends Panel {
-		private JButton inputBtn = new JButton("Input Name");
-		private JTextField tf = new JTextField(10);
-		private JButton confirmBtn = new JButton("Confirm");
-		private JButton messageBtn = new JButton("Message");
-
-		public MyPanel() {
-			setBackground(Color.LIGHT_GRAY);
-			add(inputBtn);
-			add(confirmBtn);
-			add(messageBtn);
-			add(tf);
-            inputBtn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					String name = 
-						JOptionPane.showInputDialog("이름을 입력하세요.");
-					if(name != null)
-						tf.setText(name);
-				}
-			});
-			confirmBtn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					int result = JOptionPane.showConfirmDialog(null, 
-									"계속하겠습니까?", "Confirm", 
-									JOptionPane.YES_NO_OPTION);
-					if(result == JOptionPane.CLOSED_OPTION)
-						tf.setText("Just Closed without Selection");
-					else if(result == JOptionPane.YES_OPTION)
-						tf.setText("Yes");
-					else
-						tf.setText("No");
-				}
-			});
-			messageBtn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					JOptionPane.showMessageDialog(null, 
-									"에러", "Message", 
-									JOptionPane.ERROR_MESSAGE); 
-				}
-			});
-		}
-	}
-	public static void main(String [] args) {
-		new OptionPaneEx();
-	}
-}
-```
- --------------------------------------------------------------------------------
-150. 이벤트 기반 프로그래밍
-        - 이벤트의 발생에 의해 프로그램흐름이 결정되는 방식
-        - 반대되는 개념: 배치 실행
-
-151. 처리되는 과정
-        - 이벤트 발생
-        - 이벤트 객체 생성
-        - 응응프로그램에 작성된 이벤트 리스너 찾기
-        - 이벤트 리스너 실행
- 
- 152. 이벤트 객체
-        - 발생한 이벤트에 관한 정보를 가진 객체
-        - 이벤트 리스너에 의해 전달됨
- 
-
- 153. 포함하는 정보
-        - 이벤트 종류와 이벤트 소스
-        - 이벤트가 발생한 화면 좌표 및 컴포넌트 내 좌표
-        - 발생된 버튼이나 메뉴 아이템의 문자열
-        - 클릭된 마우스 버튼 및 클릭 횟수
-        - 키의 코드 값과 문자 값
- 
- 154. 이벤트 리스너
-        - 이벤트를 처리하는 자바 프로그램 코드, 클래스로 작성
-        - 자바의 리스너 인터페이스를 상속받아 구현
-        - 리스너 인터페이스의 모든 추상 메소드 구현
- 
- 155. 이벤트와 이벤트 리스너 선택
-        - 버튼 클릭을 처리하고자 하는 경우: 액션 이벤트, 이벤트 리스너, 액션 리스너
-
-156. 이벤트 리스너 등록
-        - 이벤트를 받아 처리하고자 하는 컴포넌트에 이벤트 리스너 등록
-
-157. 이벤트 리스너 3가지 작성 방법
-        - 독립 클래스 작성 (이벤트 리스를 완전히 클래스로 작성)
-        - 내부 클래스로 작성 (클래스 안에 맴버처럼 클래스 작성)
-        - 익명 클래스로 작성 (클래스의 이름 없이 간단히 리스너 작성)
-
-```java
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-
-public class IndepClassListener extends JFrame {
-    public IndepClassListener() {
-        setTitle("Action 이벤트 리스너 예제");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container c = getContentPane();
-        c.setLayout(new FlowLayout());
-        JButton btn = new JButton("Action");
-        btn.addActionListener(new MyActionListener());
-        c.add(btn);
-        setSize(250, 120);
-        setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new IndepClassListener();
-    }
-}
-
-class MyActionListener implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
-        JButton b = (JButton)e.getSource();
-        if(b.getText().equals("Action"))
-            b.setText("액션");
-        else 
-            b.setText("Action");
-    }
-}
-```
-156. 익명 클래스로 이벤트 리스너 작성
-        - 익명 클래스: 이름 없는 클래스 ((클래스선언 + 인스턴스 생성)을 한번에 달성)
-        - 간단한 리스너의 경우 익명 클래스 추천
-```java
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-
-public class AnonymousClassListener extends JFrame {
-    public AnonymousClassListener() {
-        setTitle("Action 이벤트 리스너 예제");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container c = getContentPane();
-        c.setLayout(new FlowLayout());
-        JButton btn = new JButton("Action");
-        
-        // 익명 클래스 리스너 추가
-        btn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JButton b = (JButton)e.getSource();
-                if (b.getText().equals("Action"))
-                    b.setText("액션");
-                else
-                    b.setText("Action");
-                setTitle(b.getText());
-            }
-        });
-        
-        c.add(btn);
-        setSize(250, 120);
-        setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new AnonymousClassListener();
-    }
-}
-```
-157. Key 이벤트와 포커스
-        - 키 입력시 각각 Key 이벤트 발생 (키를 누르는 순간/키를 떼는 순간)
-        - 키 이벤트를 받을 수 있는 조건(모든 컴포넌트, 현재 포커스를 가진 컴포넌트가 키 이벤트 독점)
-        - 포커스 (컴포넌트나 응용프로그램이 키 이벤트를 독점하는 권한)
-
-158. 키 리스너
-        - 응용프로그램에서 키 리스너를 상속받아 키 리스너 구현
-    
-159. 키 이벤트 객체
-        - 입력된 키 정보를 가진 이벤트 객체
-        - 키 이벤트 객체의 메소드로 입력된 키 판별
-
-160. 가상 키
-        - 가상 키는 키 이벤트 클래스에 상수로 선언
-
-161. 마우스 이벤트
-        - 사용자의 마우스 조작에 따라 발생하는 이벤트
- --------------------------------------------------------------------------------
- 141. 컨테이너의 배치관리자
-        - 컨테이너마다 하나의 배치관리자 존재
-        - 컨테이너에 부착되는 컴포넌트 위치와 크기 설정
-
-142. 배치관리자 유형 4가지
-        - FolwLayout: 컴포넌트가 삽입되는 순서대로 왼쪽에서 오른쪽으로 배치
-        - BorderLayout: 공간을 동, 서, 남, 북, 중앙 5개 영역 나눔
-        - GridLayout: 프로그램에서 설정한 동일한 크기의 2차원 격자로 나눔
-        - CardLayout: 컨테이너 공간에 카드를 쌓아 놓은듯 포개어 배치
-
-143. 새로운 배치관리자 설정
-        
-
-144. 배치방법
-        - 컴포넌트를 컨테이너 내에 왼쪽에서 오른쪽으로 배치 (다시 위에서 아래로 순서대로 배치)
-
-145. FolwLayout(int align, int hGap, int vGap)
-        - align: 정렬하는 방법 지정
-        - hGap: 좌우 두 사이 수평 간격 (디폴드 5)
-        - vGap : 상하 두 컴퍼넌트 사이의 수직 간격 (디폴트 5)
-     
-``` java (FlowLayout)
-import javax.swing.*;
-import java.awt.*;
-
-public class FlowLayoutEx extends JFrame{
-    public FlowLayoutEx() {
-        setTitle("FlowLayout 에제");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container contentPanne = getContentPane();
-
-        contentPanne.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 40));
-    
-        contentPanne.add(new JButton("add"));
-        contentPanne.add(new JButton("sub"));
-        contentPanne.add(new JButton("mul"));
-        contentPanne.add(new JButton("div"));
-        contentPanne.add(new JButton("Calculate"));
-
-        setSize(300, 200);
-        setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new FlowLayoutEx();
-    }
-} 
-```
-146. BorderLayout 배치관리자
-        - 컨테이너 공간을 동 서 남 북 중앙 분활, 배치
-        - hGap: 좌우 두 사이 수평 간격 (디폴드 0)
-        - vGap : 상하 두 컴퍼넌트 사이의 수직 간격 (디폴트 0)
+178. paintComponent(Graphic g)의 오버라이딩
+        - 개발자가 JComponent를 상속받아 새로운 컴포넌트 설계
 ``` java
 import javax.swing.*;
 import java.awt.*;
 
-public class BorderLayoutEx extends JFrame{
-    public BorderLayoutEx() {
-        setTitle("BorderLayout 에제");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container contentPanne = getContentPane();
+public class paintJPanelEx extends JFrame {
+	public paintJPanelEx() {
+		setTitle("JPanel의 paintComponent() 예제");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setContentPane(new MyPanel()); 
+		setSize(250,200);
+		setVisible(true);
+	}
 
-        contentPanne.setLayout(new BorderLayout ());
-    
-        contentPanne.add(new JButton("CENTER"), BorderLayout.CENTER);
-        contentPanne.add(new JButton("NORTH"), BorderLayout.NORTH );
-        contentPanne.add(new JButton("SOUTH"), BorderLayout.SOUTH);
-        contentPanne.add(new JButton("EAST"), BorderLayout.EAST);
-        contentPanne.add(new JButton("WEST"), BorderLayout.WEST);
+	class MyPanel extends JPanel {
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g); 
+			g.setColor(Color.BLUE); 
+			g.drawRect(10,10,50,50); 
+			g.drawRect(50,50,50,50); 
 
-        setSize(300, 200);
-        setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new BorderLayoutEx();
-    }
-} 
+			g.setColor(Color.MAGENTA); 
+			g.drawRect(90,90,50,50);
+		}
+	}
+	public static void main(String [] args) {
+		new paintJPanelEx();
+	}
+}
 ```
+179. 그래픽 기반 GUI 프로그래밍
+        - 스윙 컴포넌트에 의존하지 않고 선, 원 이미지 등을 이용하여 직접 화면을 구성하는 방법
 
-147. GridLayout
-     -  동일한 사각형 격자로 분활하고 각 셀에 컴포넌트 하나씩 배치
+180. Graphics의 기능
+        - 색상 선택하기
+        - 문자열 그리기
+        - 도형 그리기
+        - 도형 칠하기
+        - 이미지 그리기
+        - 클리핑
 
 ```java
 import javax.swing.*;
 import java.awt.*;
 
-public class GridLayoutEx extends JFrame {
-    public GridLayoutEx() {
-        super("BorderLayout 예제");                       
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container contentPane = getContentPane();              
-         
-        //1x10의 GridLayout 배치관리자
-        contentPane.setLayout(new GridLayout(4, 3));             
+public class GraphicsColorFontEx extends JFrame {
+	public GraphicsColorFontEx() {
+		setTitle("문자열, Color, Font 사용 예제");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setContentPane(new MyPanel());
+		setSize(300, 300);
+		setVisible(true);
+	}
 
-        for(int i=9; i>0; i--) {                                
-            String text = Integer.toString(i);                  변환               
-            contentPane.add(new JButton(text));                  
-        }       
-
-        contentPane.add(new JButton("*"));
-        contentPane.add(new JButton("0"));
-
-        setSize(300, 200);                       
-        setVisible(true);                                   
-    }
-
-    public static void main(String[] args) {
-        new GridLayoutEx();
-    }
+	class MyPanel extends JPanel {
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.setColor(Color.BLUE); 
+			g.drawString("자바가 정말 재밌다", 30,30);
+			g.setColor(new Color(255, 0, 0)); 
+			g.setFont(new Font("Arial", Font.ITALIC, 30));
+			g.drawString("How much?", 30, 70);
+			g.setColor(new Color(0x00ff00ff));
+			for(int i=1; i<=4; i++) {
+				g.setFont(new Font("Jokerman", Font.ITALIC, i*10));
+				g.drawString("This much!!", 30, 60+i*40);
+			}
+		}
+	}
+	public static void main(String [] args) {
+		new GraphicsColorFontEx();
+	}
 }
 ```
-148. 배치관리자가 없는 컨테이너가 필요한 경우
-        - 응용프로그램에서 직접 컴포넌트의 크기와 위치를 결정고자 하는 경우
+181. 도형 그리기
+        - 선, 티원, 사격형, 둥근 모서리 사각형, 원호, 폐 다각형 그리기
+        - 선의 굵기는 조절할 수 없음
+```java
+import javax.swing.*;
+import java.awt.*;
 
-149. 배치관리자가 없는 컨테이너에 컴포넌트를 삽입 할 떄
-        - 프로그램에서 컴포넌트의 절대 크기와 위치 설정
-        - 서로 겹치게 할 수 있음
---------------------------------------------------------------------------------
+public class GraphicsDrawLineEx extends JFrame {
+	public GraphicsDrawLineEx() {
+		setTitle("drawLine 사용");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setContentPane(new MyPanel());
+		setSize(200, 150);
+		setVisible(true);
+	}
+
+	class MyPanel extends JPanel {
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.setColor(Color.RED); 
+			g.drawLine(20, 20, 100, 100);
+            g.drawOval(20,20,80,80);
+            g.drawRect(20,20,80,80);
+            g.drawRoundRect(20,20,120,80,40,60);
+			g.drawArc(20,100,80,80,90,270);
+            // 다각형
+			int []x = {80,40,80,120};
+			int []y = {40,120,200,120}; 
+			g.drawPolygon(x, y, 4);
+		}
+	}
+	public static void main(String [] args) {
+		new GraphicsDrawLineEx();
+	}
+}
+```
+182. JLabel을 이용한 이미지 그리기
+        - 장점: 이미지 그리기 간편 용이
+        - 단점: 이미지의 원본 크기대로 그리므로 이미지 크기 조절 불가
+183. Graphics의 drawImage()로 이미지 출력
+        - 장점: 이미지 일부분 등 이미지의 원본 크기와 다르게 그리기 가능
+        - 단점: 컴포넌트로 관리할 수 없음
+```java
+import javax.swing.*;
+import java.awt.*;
+
+public class GraphicsDrawImageEx1 extends JFrame {
+	public GraphicsDrawImageEx1() {
+		setTitle("원본 크기로 원하는 위치에 이미지 그리기");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setContentPane(new MyPanel());
+		
+		setSize(300, 400);
+		setVisible(true);
+	}
+
+	class MyPanel extends JPanel {
+		private ImageIcon icon = new ImageIcon("images/image0.jpg");
+		private Image img = icon.getImage();
+
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			// g.drawImage(img, 20,20, this);
+            g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+		}
+	}
+
+	public static void main(String [] args) {
+		new GraphicsDrawImageEx1();
+	}
+} 
+```
+184. 
+ --------------------------------------------------------------------------------
 1. 프로젝트 생성시 디렉터리 판별 및 주의 
 
 2. 생성 후 이전 시간에 하던 생성물들 복사 붙여넣기로 하고 자바 생성물 src로 옳긴 후 디버깅 
 
-3. VSC 쓰는 이유는 깊이가 생겨서 쓰기가 편해짐
+3. VSC 쓰는 이유는 깊이가 생겨서 쓰기가 편해진다
 
 4. 언어는 2가지 (고급언어, 저급어(기계어, 어셈블리어))가 있다
 
@@ -1208,3 +703,664 @@ public class GridLayoutEx extends JFrame {
 140. 프레임에 컴포넌트 붙이기
         - 타이틀 달기 (super()나 setTitle() 이용)
         - 컨텐트팬에 컴포넌트 달기 (컨텐트팬은 스윙 컴포넌트들이 부착되는 공간)
+
+141. 컨테이너의 배치관리자
+        - 컨테이너마다 하나의 배치관리자 존재
+        - 컨테이너에 부착되는 컴포넌트 위치와 크기 설정
+
+142. 배치관리자 유형 4가지
+        - FolwLayout: 컴포넌트가 삽입되는 순서대로 왼쪽에서 오른쪽으로 배치
+        - BorderLayout: 공간을 동, 서, 남, 북, 중앙 5개 영역 나눔
+        - GridLayout: 프로그램에서 설정한 동일한 크기의 2차원 격자로 나눔
+        - CardLayout: 컨테이너 공간에 카드를 쌓아 놓은듯 포개어 배치
+
+143. 새로운 배치관리자 설정
+        
+
+144. 배치방법
+        - 컴포넌트를 컨테이너 내에 왼쪽에서 오른쪽으로 배치 (다시 위에서 아래로 순서대로 배치)
+
+145. FolwLayout(int align, int hGap, int vGap)
+        - align: 정렬하는 방법 지정
+        - hGap: 좌우 두 사이 수평 간격 (디폴드 5)
+        - vGap : 상하 두 컴퍼넌트 사이의 수직 간격 (디폴트 5)
+     
+``` java (FlowLayout)
+import javax.swing.*;
+import java.awt.*;
+
+public class FlowLayoutEx extends JFrame{
+    public FlowLayoutEx() {
+        setTitle("FlowLayout 에제");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container contentPanne = getContentPane();
+
+        contentPanne.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 40));
+    
+        contentPanne.add(new JButton("add"));
+        contentPanne.add(new JButton("sub"));
+        contentPanne.add(new JButton("mul"));
+        contentPanne.add(new JButton("div"));
+        contentPanne.add(new JButton("Calculate"));
+
+        setSize(300, 200);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new FlowLayoutEx();
+    }
+} 
+```
+146. BorderLayout 배치관리자
+        - 컨테이너 공간을 동 서 남 북 중앙 분활, 배치
+        - hGap: 좌우 두 사이 수평 간격 (디폴드 0)
+        - vGap : 상하 두 컴퍼넌트 사이의 수직 간격 (디폴트 0)
+``` java
+import javax.swing.*;
+import java.awt.*;
+
+public class BorderLayoutEx extends JFrame{
+    public BorderLayoutEx() {
+        setTitle("BorderLayout 에제");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container contentPanne = getContentPane();
+
+        contentPanne.setLayout(new BorderLayout ());
+    
+        contentPanne.add(new JButton("CENTER"), BorderLayout.CENTER);
+        contentPanne.add(new JButton("NORTH"), BorderLayout.NORTH );
+        contentPanne.add(new JButton("SOUTH"), BorderLayout.SOUTH);
+        contentPanne.add(new JButton("EAST"), BorderLayout.EAST);
+        contentPanne.add(new JButton("WEST"), BorderLayout.WEST);
+
+        setSize(300, 200);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new BorderLayoutEx();
+    }
+} 
+```
+
+147. GridLayout
+     -  동일한 사각형 격자로 분활하고 각 셀에 컴포넌트 하나씩 배치
+
+```java
+import javax.swing.*;
+import java.awt.*;
+
+public class GridLayoutEx extends JFrame {
+    public GridLayoutEx() {
+        super("BorderLayout 예제");                       
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container contentPane = getContentPane();              
+         
+        //1x10의 GridLayout 배치관리자
+        contentPane.setLayout(new GridLayout(4, 3));             
+
+        for(int i=9; i>0; i--) {                                
+            String text = Integer.toString(i);                  변환               
+            contentPane.add(new JButton(text));                  
+        }       
+
+        contentPane.add(new JButton("*"));
+        contentPane.add(new JButton("0"));
+
+        setSize(300, 200);                       
+        setVisible(true);                                   
+    }
+
+    public static void main(String[] args) {
+        new GridLayoutEx();
+    }
+}
+```
+148. 배치관리자가 없는 컨테이너가 필요한 경우
+        - 응용프로그램에서 직접 컴포넌트의 크기와 위치를 결정고자 하는 경우
+
+149. 배치관리자가 없는 컨테이너에 컴포넌트를 삽입 할 떄
+        - 프로그램에서 컴포넌트의 절대 크기와 위치 설정
+        - 서로 겹치게 할 수 있음
+
+150. 이벤트 기반 프로그래밍
+        - 이벤트의 발생에 의해 프로그램흐름이 결정되는 방식
+        - 반대되는 개념: 배치 실행
+
+151. 처리되는 과정
+        - 이벤트 발생
+        - 이벤트 객체 생성
+        - 응응프로그램에 작성된 이벤트 리스너 찾기
+        - 이벤트 리스너 실행
+ 
+ 152. 이벤트 객체
+        - 발생한 이벤트에 관한 정보를 가진 객체
+        - 이벤트 리스너에 의해 전달됨
+ 
+ 153. 포함하는 정보
+        - 이벤트 종류와 이벤트 소스
+        - 이벤트가 발생한 화면 좌표 및 컴포넌트 내 좌표
+        - 발생된 버튼이나 메뉴 아이템의 문자열
+        - 클릭된 마우스 버튼 및 클릭 횟수
+        - 키의 코드 값과 문자 값
+ 
+ 154. 이벤트 리스너
+        - 이벤트를 처리하는 자바 프로그램 코드, 클래스로 작성
+        - 자바의 리스너 인터페이스를 상속받아 구현
+        - 리스너 인터페이스의 모든 추상 메소드 구현
+ 
+ 155. 이벤트와 이벤트 리스너 선택
+        - 버튼 클릭을 처리하고자 하는 경우: 액션 이벤트, 이벤트 리스너, 액션 리스너
+
+156. 이벤트 리스너 등록
+        - 이벤트를 받아 처리하고자 하는 컴포넌트에 이벤트 리스너 등록
+
+157. 이벤트 리스너 3가지 작성 방법
+        - 독립 클래스 작성 (이벤트 리스를 완전히 클래스로 작성)
+        - 내부 클래스로 작성 (클래스 안에 맴버처럼 클래스 작성)
+        - 익명 클래스로 작성 (클래스의 이름 없이 간단히 리스너 작성)
+
+```java
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class IndepClassListener extends JFrame {
+    public IndepClassListener() {
+        setTitle("Action 이벤트 리스너 예제");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container c = getContentPane();
+        c.setLayout(new FlowLayout());
+        JButton btn = new JButton("Action");
+        btn.addActionListener(new MyActionListener());
+        c.add(btn);
+        setSize(250, 120);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new IndepClassListener();
+    }
+}
+
+class MyActionListener implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+        JButton b = (JButton)e.getSource();
+        if(b.getText().equals("Action"))
+            b.setText("액션");
+        else 
+            b.setText("Action");
+    }
+}
+```
+156. 익명 클래스로 이벤트 리스너 작성
+        - 익명 클래스: 이름 없는 클래스 ((클래스선언 + 인스턴스 생성)을 한번에 달성)
+        - 간단한 리스너의 경우 익명 클래스 추천
+```java
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class AnonymousClassListener extends JFrame {
+    public AnonymousClassListener() {
+        setTitle("Action 이벤트 리스너 예제");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container c = getContentPane();
+        c.setLayout(new FlowLayout());
+        JButton btn = new JButton("Action");
+        
+        // 익명 클래스 리스너 추가
+        btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JButton b = (JButton)e.getSource();
+                if (b.getText().equals("Action"))
+                    b.setText("액션");
+                else
+                    b.setText("Action");
+                setTitle(b.getText());
+            }
+        });
+        
+        c.add(btn);
+        setSize(250, 120);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new AnonymousClassListener();
+    }
+}
+```
+157. Key 이벤트와 포커스
+        - 키 입력시 각각 Key 이벤트 발생 (키를 누르는 순간/키를 떼는 순간)
+        - 키 이벤트를 받을 수 있는 조건(모든 컴포넌트, 현재 포커스를 가진 컴포넌트가 키 이벤트 독점)
+        - 포커스 (컴포넌트나 응용프로그램이 키 이벤트를 독점하는 권한)
+
+158. 키 리스너
+        - 응용프로그램에서 키 리스너를 상속받아 키 리스너 구현
+    
+159. 키 이벤트 객체
+        - 입력된 키 정보를 가진 이벤트 객체
+        - 키 이벤트 객체의 메소드로 입력된 키 판별
+
+160. 가상 키
+        - 가상 키는 키 이벤트 클래스에 상수로 선언
+
+161. 마우스 이벤트
+        - 사용자의 마우스 조작에 따라 발생하는 이벤트
+
+162. 자바의 GUI 프로그래밍 방법 종류
+        - 컴포넌트 기반 GUI 프로그래밍
+        - 그래픽 기반 GUI 프로그래밍
+
+![Alt text](image.png)
+
+163. 스윙 컴포넌트의 공통 메소드 JComponent의 메소드
+        - 스윙컴포넌트는 모두 상속받는 슈퍼, 추상 클래스
+        - 스윙 컴포넌트들이 상속받는 공통메소드와 상수 구현
+```Java 
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class JComponentEx extends JFrame {
+    public JComponentEx() {
+        super("JComponent의 공통 메소드 예제");
+        Container c = getContentPane();
+        c.setLayout(new FlowLayout());
+        JButton b1 = new JButton("Magenta/Yellow Button");
+        JButton b2 = new JButton("Disabled Button");
+        JButton b3 = new JButton("getX(), getY()");
+        b1.setBackground(Color.YELLOW);
+        b1.setForeground(Color.MAGENTA);
+        b1.setFont(new Font("Arial", Font.ITALIC, 20));
+        b2.setEnabled(false);
+        b3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JButton b = (JButton)e.getSource();
+                setTitle(b.getX() + "," + b.getY());
+            }
+        });
+        c.add(b1); c.add(b2); c.add(b3);
+        setSize(260, 200); setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new JComponentEx();
+    }
+}
+```
+164. JLable
+        - 문자열이나 이미지를 화면에 출력하기 위한 목적
+```Java 
+import java.awt.*;
+import javax.swing.*;
+
+public class LabelEx extends JFrame {
+    public LabelEx() {
+        setTitle("레이블 예제");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container c = getContentPane();
+        c.setLayout(new FlowLayout());
+
+        JLabel textLabel = new JLabel("제임스 고블링 입니다!");
+
+        ImageIcon img = new ImageIcon();
+        JLabel imageLabel = new JLabel(img);
+
+        ImageIcon icon = new ImageIcon();
+        JLabel label = new JLabel("안녕하세요", icon, SwingConstants.CENTER);
+
+        c.add(textLabel);
+        c.add(imageLabel);
+        c.add(label);
+    }
+
+    public static void main(String[] args) {
+        new LabelEx();
+    }
+}   
+```
+165. 이미지 버튼
+        - 마우스 조작에 따라 3 개의 이미지 중 적절한 이미지 자동 출력
+        - normalIcon: 버튼의 보통 상태(디폴트) 때 출력되는 이미지
+        - rolloverIcon: 버튼에 마우스가 올라갈 때 출력되는 이미지 
+        - pressedIcon: 버튼을 누른 상태 때 출력되는 이미지
+
+```Java 
+import java.awt.*;
+import javax.swing.*;
+
+public class ButtonImageEx extends JFrame {
+    public ButtonImageEx() {
+        setTitle("이미지 버튼 예제");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container c = getContentPane();
+        c.setLayout(new FlowLayout());
+
+       ImageIcon normalIcon = new ImageIcon("images/gosline.jpg");
+       ImageIcon rolloverIcon = new ImageIcon("images/go.jpg");
+       ImageIcon pressedIcon = new ImageIcon("images/images.jpg");
+
+        JButton btn = new JButton("call", normalIcon);
+        btn.setPressedIcon(pressedIcon);
+        btn.setRolloverIcon(rolloverIcon);
+
+        c.add(btn);
+        setSize(250, 250);
+        setVisible(true);
+    }
+    public static void main(String[] args) {
+        new ButtonImageEx();
+    }
+}
+```
+166. JCheckBox
+        - 선택과 비선택 두상태만 가진 버튼
+```java
+import java.awt.*;
+import javax.swing.*;
+
+public class CheckBoxEx extends JFrame {
+    public CheckBoxEx() {
+        setTitle("체크 버튼 예제");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container c = getContentPane();
+        c.setLayout(new FlowLayout());
+
+       ImageIcon normalIcon = new ImageIcon("images/gosline.jpg");
+       ImageIcon rolloverIcon = new ImageIcon("images/go.jpg");
+       ImageIcon pressedIcon = new ImageIcon("images/images.jpg");
+
+        JButton btn = new JButton("call", normalIcon);
+        btn.setPressedIcon(pressedIcon);
+        btn.setRolloverIcon(rolloverIcon);
+
+        c.add(btn);
+        setSize(250, 250);
+        setVisible(true);
+    }
+    public static void main(String[] args) {
+        new CheckBoxEx();
+    }
+}
+```
+167. JRadioButton의 용도
+        - 버튼 그룹을 형성하고, 그룹에 속한 버튼 중 하나만 선택되는 라디오버튼
+```Java 
+import javax.swing.*;
+import java.awt.*;
+
+public class RadioButtonEx extends JFrame {
+	public RadioButtonEx() {
+		setTitle("라디오버튼 만들기 예제");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Container c = getContentPane();
+		c.setLayout(new FlowLayout());
+		ButtonGroup g = new ButtonGroup(); // 버튼 그룹 객체 생성
+
+		JRadioButton apple = new JRadioButton("사과");
+		JRadioButton pear = new JRadioButton("배", true);
+		JRadioButton cherry = new JRadioButton("체리");
+
+		g.add(apple);
+		g.add(pear);
+		g.add(cherry);
+
+		c.add(apple); c.add(pear); c.add(cherry);
+		setSize(250,150);
+		setVisible(true);
+	}
+	public static void main(String [] args) {
+		new RadioButtonEx();
+	}
+}
+```
+168. JTextField
+        - 한 줄의 문자열을 입력 받는 창(텍스트필드)
+        - 텍스트 입력 도중 엔터키가 입력되면 action 이벤트 발생
+```java
+import javax.swing.*;
+import java.awt.*;
+
+public class TextFieldEx extends JFrame {
+	public TextFieldEx() {
+		setTitle("텍스트필드 만들기");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Container c = getContentPane();
+		c.setLayout(new FlowLayout());
+
+		c.add(new JLabel("이름 "));
+		c.add(new JTextField(20));
+		c.add(new JLabel("학과 "));
+		c.add(new JTextField("컴퓨터공학부", 20)); 
+		c.add(new JLabel("주소 "));
+		c.add(new JTextField("서울특별시 동작구", 20)); 		
+
+		setSize(300,150);
+		setVisible(true);
+	}
+	public static void main(String [] args) {
+		new TextFieldEx();
+	}
+}
+```
+169. TextArea
+        - 여러 줄의 문자열을 입력받을 수 있는 창(텍스트영역)
+```java
+import javax.swing.*;
+import java.awt.event.*;
+import java.awt.*;
+
+public class TextAreaEx extends JFrame {
+	private JTextField tf = new JTextField(20);
+	private JTextArea ta = new JTextArea(7, 20); 
+
+	public TextAreaEx() {
+		setTitle("텍스트영역 만들기");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Container c = getContentPane();
+		c.setLayout(new FlowLayout());
+		c.add(new JLabel("입력 후 <Enter> 키를 입력하세요"));
+		c.add(tf);
+		c.add(new JScrollPane(ta));
+
+		tf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JTextField t = (JTextField)e.getSource();
+				ta.append(t.getText() + "\n"); 
+				t.setText(""); 
+			}
+		});
+		setSize(300,300);
+		setVisible(true);
+	}
+	public static void main(String [] args) {
+		new TextAreaEx();
+	}
+}
+```
+170. JList<E>
+        - 하나 이상의 아이템을 보여주고 아이템을 선택할 수 있도록 하는 리스트
+```java
+import javax.swing.*;
+import java.awt.*;
+public class ListEx extends JFrame {
+	private String [] fruits= {"apple", "banana", "kiwi", "mango", 
+				"pear", "peach", "berry", "strawberry", "blackberry"};
+	private ImageIcon [] images = { new ImageIcon("images/1.png"),
+									new ImageIcon("images/2.png"),
+									new ImageIcon("images/3.png"),
+									new ImageIcon("images/4.png") };
+	public ListEx() {
+		setTitle("리스트 만들기");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Container c = getContentPane();
+		c.setLayout(new FlowLayout());
+
+		JList<String> strList = new JList<String>(fruits); 
+		c.add(strList);
+
+		JList<ImageIcon> imageList = new JList<ImageIcon>(); 
+		imageList.setListData(images); 
+		c.add(imageList);
+
+		JList<String> scrollList = new JList<String>(fruits); 
+		c.add(new JScrollPane(scrollList)); 
+
+		setSize(300,300); setVisible(true);
+	}
+	public static void main(String [] args) {
+		new ListEx();
+	}
+}
+```
+171. JComboBox<E>
+        - 텍스트필드와 버튼 그리고 드롭다운 리스트로 구성되는 콤보박스
+        - 드랍다운 리스트에서 선택한 것이 텍스트필드에 나타남
+```java
+import javax.swing.*;
+import java.awt.event.*;
+import java.awt.*;
+
+public class ComboActionEx extends JFrame {
+	private String [] fruits = {"apple", "banana", "mango"}; 
+	private ImageIcon [] images = { new ImageIcon("images/apple.jpg"),
+									new ImageIcon("images/banana.jpg"),
+									new ImageIcon("images/mango.jpg") };
+	private JLabel imgLabel = new JLabel(images[0]); 
+
+	public ComboActionEx() {
+		setTitle("콤보박스 활용");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Container c = getContentPane();
+		c.setLayout(new FlowLayout());
+		
+        JComboBox<String> combo = new JComboBox<String>(fruits); 
+		c.add(combo); c.add(imgLabel);
+		
+		combo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JComboBox<String> cb = (JComboBox<String>)e.getSource(); 
+				int index = cb.getSelectedIndex(); 	
+				imgLabel.setIcon(images[index]); 
+			}
+		});
+		setSize(300,250);
+		setVisible(true);
+	}
+	public static void main(String [] args) {
+		new ComboActionEx();
+	}
+}
+```
+172. 메뉴 구성
+        - 메뉴 만들기에 필요한 스윙 컴포넌트
+        - 메뉴아이템 - JMenuItem
+        - 메뉴 - JMenu
+        - 메뉴바 - JMenuBar
+        - 분리선 - separator
+```java
+import javax.swing.*;
+
+public class MenuEx extends JFrame {
+	public MenuEx() {
+		setTitle("Menu 만들기");
+		createMenu(); 
+		setSize(250,200);
+		setVisible(true);
+	}
+
+	public void createMenu() {
+		JMenuBar mb = new JMenuBar(); 
+		JMenu screenMenu = new JMenu("Screen");
+		
+		screenMenu.add(new JMenuItem("Load"));
+		screenMenu.add(new JMenuItem("Hide"));
+		screenMenu.add(new JMenuItem("ReShow"));
+		screenMenu.addSeparator();
+		screenMenu.add(new JMenuItem("Exit"));
+
+		mb.add(screenMenu);
+		mb.add(new JMenu("Edit"));
+		mb.add(new JMenu("Source"));
+		mb.add(new JMenu("Project"));
+		mb.add(new JMenu("Run"));
+		setJMenuBar(mb);
+	}
+	public static void main(String [] args) {
+		new MenuEx();
+	}
+}
+```
+173. 팝업 다이얼로그
+        - 사용자에게 메시지를 전달하거나 문자열을 간단히 입력받는 용도
+        - JOptionPane 클래스를 이용하여 생성
+
+174. 확인 다이얼로그
+        - 사용자로부터 Yes/No 응답을 입력 받는 다이얼로그
+
+175. 메세지 다이얼로그
+        - 단순 메세지를 출력하는 다이얼로그
+```java
+import javax.swing.*;
+import java.awt.event.*;
+import java.awt.*;
+
+public class OptionPaneEx extends JFrame {
+	public OptionPaneEx() {
+		setTitle("옵션 팬");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Container c = getContentPane();
+		setSize(500,200);
+		c.add(new MyPanel(),	BorderLayout.NORTH);
+		setVisible(true);
+	}
+	class MyPanel extends Panel {
+		private JButton inputBtn = new JButton("Input Name");
+		private JTextField tf = new JTextField(10);
+		private JButton confirmBtn = new JButton("Confirm");
+		private JButton messageBtn = new JButton("Message");
+
+		public MyPanel() {
+			setBackground(Color.LIGHT_GRAY);
+			add(inputBtn);
+			add(confirmBtn);
+			add(messageBtn);
+			add(tf);
+            inputBtn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String name = 
+						JOptionPane.showInputDialog("이름을 입력하세요.");
+					if(name != null)
+						tf.setText(name);
+				}
+			});
+			confirmBtn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int result = JOptionPane.showConfirmDialog(null, 
+									"계속하겠습니까?", "Confirm", 
+									JOptionPane.YES_NO_OPTION);
+					if(result == JOptionPane.CLOSED_OPTION)
+						tf.setText("Just Closed without Selection");
+					else if(result == JOptionPane.YES_OPTION)
+						tf.setText("Yes");
+					else
+						tf.setText("No");
+				}
+			});
+			messageBtn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JOptionPane.showMessageDialog(null, 
+									"에러", "Message", 
+									JOptionPane.ERROR_MESSAGE); 
+				}
+			});
+		}
+	}
+	public static void main(String [] args) {
+		new OptionPaneEx();
+	}
+}
+```
