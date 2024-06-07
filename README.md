@@ -157,7 +157,150 @@ public class GraphicsDrawImageEx1 extends JFrame {
 	}
 } 
 ```
-184. 
+184. repaint()
+        - 모든 컴포넌트가 가지고 있는 메소드
+
+185. repaint()의 호출이 필요한 경우
+        - 프로그램에서 컴포넌트의 모양과 위치를 변경하고 바로 화면에 반영시키고자 하는 경우
+        - 컴포넌트가 다시 그려져야 그 때 변경된 위치에 변경된 모양으로 출력됨
+        - repaint()는 자바 플랫폼에게 지금 당장 컴포넌트를 다시 그리도록 지시함
+
+186. 멀티태스킹
+        - 여러 개의 작업(태스크)이 동시에 처리되는 것
+
+![Alt text](image-3.png)
+
+187. 스레드(thread)
+        - 운영체제에 의해 관리되는 하나의 작업 혹은 태스크
+        - 스레드와 태스크(혹은 작업)은 바꾸어 사용해도 무관
+
+188. 멀티스레딩(multi-threading)
+        - 여러 스레드를 동시에 실행시키는 응용프로그램을 작성하는 기법
+
+189. 스레드 코드
+        - 작업을 실행하기 위해 작성한 프로그램 코드
+        - 개발자가 작성
+190. 스레드 정보
+        - 스레드 명, 스레드 ID, 스레드의 실행 소요 시간, 스레드의 우선 순위 등 
+        - 운영체제가 스레드에 대해 관리하는 정보
+
+191. 멀티프로세싱
+        - 하나의 응용프로그램이 여러 개의 프로세스를 생성하고, 각 프로세스가 하나의 작업을 처리하는 기법
+        - 각 프로세스 독립된 메모리 영역을 보유하고 실행
+        - 프로세스 사이의 문맥 교환에 따른 과도한 오버헤드와 시간 소모의 문제점
+
+192. 멀티스레딩
+        - 하나의 응용프로그램이 여러 개의 스레드를 생성하고, 각 스레드가 하나의 작업을 처리하는 기법
+        - 하나의 응용프로그램에 속한 스레드는 변수 메모리, 파일 오픈 테이블 등 자원으로 공유하므로, 문맥 교환에 따른 오버헤드가 매주 작음
+        - 현재 대부분의 운영체제가 멀티스레딩을 기본으로 하고 있음
+    
+![Alt text](image-4.png)
+
+193. 자바 스레드
+        - 자바 가상 기계(JVM)에 의해 스케쥴되는 실행 단위의 코드 블럭
+        - 스레드의 생명 주기는 JVM에 의해 관리됨 : JVM은 스레드 단위로 스케쥴링
+
+194. JVM과 자바의 멀티스레딩
+        - 자바 응용프로그램이 시작될 때 JVM이 함께 실행됨
+        - 자바 응용프로그램이 종료하면 JVM도 함께 종료함
+
+195. 스레드 만드는 2가지 방법
+        - java.lang.Thread 클래스를 상속받아 스레드 작성
+        - java.lang.Runnable 인터페이스를 구현하여 스레드 작성
+```java
+import java.awt.*;
+import javax.swing.*;
+
+class TimerThread extends Thread {
+	private JLabel timerLabel; 
+	public TimerThread(JLabel timerLabel) {
+		this.timerLabel = timerLabel; 
+	}
+
+	
+	@Override
+	public void run() {
+		int n=0; 
+		while(true) { 
+			timerLabel.setText(Integer.toString(n)); 
+			n++; 
+			try {
+				Thread.sleep(1000); 
+			}
+			catch(InterruptedException e) {	return;}
+		}	
+	}
+}
+public class ThreadTimerEx extends JFrame {
+	public ThreadTimerEx() {
+			setTitle("Thread를 상속받은 타이머 스레드 예제");
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			Container c = getContentPane();
+			c.setLayout(new FlowLayout());
+			setSize(250, 150);
+			setVisible(true);
+
+			JLabel timerLabel = new JLabel();
+			timerLabel.setFont(new Font("Gothic", Font.ITALIC, 80));
+			c.add(timerLabel);
+	
+			TimerThread th = new TimerThread(timerLabel);
+			th.start(); 
+	}
+	public static void main(String[] args) {
+		new ThreadTimerEx();
+	}
+}
+```
+```java
+import java.awt.*;
+import javax.swing.*;
+
+class TimerThread extends Thread {
+	private JLabel timerLabel; 
+	public TimerThread(JLabel timerLabel) {
+		this.timerLabel = timerLabel; 
+	}
+
+	
+	@Override
+	public void run() {
+		int n=0; 
+		while(true) { 
+			timerLabel.setText(Integer.toString(n)); 
+			n++; 
+			try {
+				Thread.sleep(1000); 
+			}
+			catch(InterruptedException e) {	return;}
+		}	
+	}
+}
+public class ThreadTimerEx extends JFrame {
+	public ThreadTimerEx() {
+			setTitle("Thread를 상속받은 타이머 스레드 예제");
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			Container c = getContentPane();
+			c.setLayout(new FlowLayout());
+			setSize(250, 150);
+			setVisible(true);
+
+			JLabel timerLabel = new JLabel();
+			timerLabel.setFont(new Font("Gothic", Font.ITALIC, 80));
+			c.add(timerLabel);
+	
+			TimerThread th = new TimerThread(timerLabel);
+			th.start(); 
+	}
+	public static void main(String[] args) {
+		new ThreadTimerEx();
+	}
+}
+```
+196. main 스레드
+        - JVM이 응용프로그램을 실행할 떄 디폴트로 생성되는 스레드
+
+197. 
  --------------------------------------------------------------------------------
 1. 프로젝트 생성시 디렉터리 판별 및 주의 
 
