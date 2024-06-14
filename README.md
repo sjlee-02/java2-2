@@ -25,8 +25,30 @@
 
 211. 문자 스트림으로 텍스트 파일 읽기
         - 텍스트 파일을 읽기 위해 문자 스트림 FileReader 클래스 이용
+```java
+import java.io.*;
 
-212. 
+public class FileReaderEx {
+	public static void main(String[] args) {
+		FileReader in = null;
+		try {
+			in = new FileReader("c:\\windows\\system.ini"); 
+			int c;
+			while ((c = in.read()) != -1) { // 한 문자씩 파일 끝까지 읽는다.
+				System.out.print((char)c);
+			}
+			in.close();
+		}
+		catch (IOException e) {
+			System.out.println("입출력 오류");
+		}
+	}
+}
+```
+
+212. 문자 스트림으로 텍스트 파일 쓰기
+        - 텍스트 파일에 쓰기 위해 문자 스트림 FileWriter 클래스 이용
+
 --------------------------------------------------------------------------------
 176. 스윙의 페인팅 기본
         - 모든 컴포넌트는 자신의 모양을 스스로 그린다
